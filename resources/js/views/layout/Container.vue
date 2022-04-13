@@ -1,5 +1,7 @@
 <template>
 <h1 class="container">Vue Router!</h1>
+    <my-button>Registration</my-button>
+    <my-input></my-input>
 </template>
 
 <script>
