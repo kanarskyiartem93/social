@@ -2,9 +2,9 @@
 const state = {
     user: {
         loggedIn: false,
-        isSubscribed: false
+        isSubscribed: false,
+        token: !!localStorage.getItem('token') || ''
     },
-    token: localStorage.getItem('token' || '')
 }
 
 const actions = {
@@ -25,7 +25,7 @@ const getters = {
 }
 
 export default {
-    namespace: true,
+    namespace: false,
     state,
     getters,
     actions,
