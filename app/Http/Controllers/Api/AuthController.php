@@ -40,8 +40,8 @@ class AuthController extends Controller
             return $tokenResponse;
         }
         return response()->json([
-            'message' => 'Unauthenticated'
-        ]);
+            'error' => 'Invalid credentials'
+        ], 401);
     }
 
     public function register(Request $request)

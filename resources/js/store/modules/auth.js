@@ -2,11 +2,13 @@ import axios from "axios";
 
 const state = {
     userDetails: {},
-    isLoggedIn: true
+    isLoggedIn: true,
+    errors: [],
+    invalidCredentials: ''
 }
 
 const actions = {
-    registerUser({}, user) {
+    registerUser(cont, user) {
         return new Promise((resolve, reject) => {
             axios.post('/api/register', {
                 name: user.name,
@@ -21,7 +23,9 @@ const actions = {
                     reject(res)
                 }
             }).catch((error) => {
-                reject(error)
+                if (error.response.status === 422) {
+                    cont.commit('setErrors', error.response.data.errors)
+                }console.log(error.response)
             })
         })
     },
@@ -34,7 +38,11 @@ const actions = {
                         window.location.replace('/dashboard')
                     }
                 }).catch((error) => {
-                reject(error)
+                        if (error.response.data.error) {
+                            cont.commit('setInvalidCredentials', error.response.data.error)
+                        } else if (error.response.status === 422) {
+                            cont.commit('setErrors', error.response.data.errors)
+                        }console.log(error.response)
             })
         })
     },
@@ -63,6 +71,12 @@ const actions = {
 const mutations = {
     setLoggedIn(state, payload) {
         state.isLoggedIn = payload
+    },
+    setErrors(state, errors) {
+        state.errors = errors
+    },
+    setInvalidCredentials(state, invalidCredentials) {
+        state.invalidCredentials = invalidCredentials
     }
 }
 
@@ -72,6 +86,12 @@ const getters = {
     },
     userDetails(state) {
         return state.userDetails
+    },
+    errors(state) {
+        return state.errors
+    },
+    invalidCredentials(state) {
+        return state.invalidCredentials
     }
 }
 
