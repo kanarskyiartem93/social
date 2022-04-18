@@ -2,10 +2,11 @@
     <div>
         <div class="login-page">
             <form class="form">
-                <my-input type="text" placeholder="email address" v-model="user.email" />
-                <my-input type="text" placeholder="password" v-model="user.password" />
-                <my-button type="submit">login</my-button >
-                <router-link to="/register"><p class="message">Not registered? <a href="#">Create an account</a></p></router-link>
+                <my-input type="text" placeholder="email address" v-model="user.email"/>
+                <my-input type="text" placeholder="password" v-model="user.password"/>
+                <my-button @click.prevent="login" type="submit">login</my-button>
+                <router-link to="/register"><p class="message">Not registered? <a href="#">Create an account</a></p>
+                </router-link>
             </form>
         </div>
     </div>
@@ -19,7 +20,12 @@ export default {
             email: "",
             password: "",
         }
-    })
+    }),
+    methods: {
+        login() {
+            this.$store.dispatch('auth/loginUser', this.user)
+        }
+    }
 }
 </script>
 
@@ -30,6 +36,7 @@ export default {
     margin: auto;
     display: flex;
 }
+
 .form {
     position: relative;
     z-index: 1;
@@ -43,6 +50,7 @@ export default {
     text-align: center;
     box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.5), 0 5px 0 rgba(0, 0, 0, 0.2);
 }
+
 .form input {
     font-family: "Roboto", sans-serif;
     outline: 0;
@@ -53,11 +61,13 @@ export default {
     box-sizing: border-box;
     font-size: 14px;
 }
+
 .form .message {
     margin: 15px;
     color: #b3b3b3;
     font-size: 12px;
 }
+
 .form .message a {
     color: #c69963;
     text-decoration: none;
