@@ -2,33 +2,27 @@
     <div>
         <div class="alert" v-if="invalidCredentials">
             <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
-            Invalid Credentials
+            {{invalidCredentials}}
         </div>
         <validation-errors v-if="validationErrors" :errors="validationErrors"></validation-errors>
-        <div class="login-page">
+        <div class="forgot-page">
             <form class="form">
                 <my-input type="text" placeholder="email address" v-model="user.email"/>
-                <my-input type="text" placeholder="password" v-model="user.password"/>
-                <my-button @click.prevent="login" type="submit">login</my-button>
-                <router-link to="/register"><p class="message">Not registered? <a href="#">Create an account</a></p>
-                </router-link>
-                <router-link to="/forgot-password"><p class="message">Forgot password? <a href="#">Reset password</a>
-                </p>
-                </router-link>
+                <my-button @click.prevent="sendForgotPassword" type="submit">Send email</my-button>
+                <router-link to="/login"><p class="message">Go to login page <a href="#">Sign in</a></p></router-link>
             </form>
         </div>
     </div>
 </template>
 
 <script>
-import {mapGetters} from 'vuex'
+import {mapGetters, mapActions} from 'vuex'
 
 export default {
-    name: "Login",
+    name: "ForgotPassword",
     data: () => ({
         user: {
             email: "",
-            password: "",
         }
     }),
     created() {
@@ -41,8 +35,12 @@ export default {
         }),
     },
     methods: {
-        login() {
-            this.$store.dispatch('auth/loginUser', this.user)
+        ...mapActions({
+            checkUserState: 'auth/setLoggedInstate',
+            forgotPassword: 'auth/forgotPassword'
+        }),
+        sendForgotPassword() {
+            this.$store.dispatch('auth/forgotPassword', this.user)
         },
         checkUserState() {
             this.$store.dispatch('auth/setLoggedInstate', this.user)
@@ -52,21 +50,19 @@ export default {
 </script>
 
 <style lang="scss">
-.login-page {
+.forgot-page {
     width: 360px;
     padding: 8% 0 0;
     margin: auto;
     display: flex;
 }
-
-.alert {
+.alert{
     padding: 20px;
     background-color: #f44336;
     color: white;
     margin-bottom: 15px;
 }
-
-.closebtn {
+.closebtn{
     margin-left: 15px;
     color: white;
     font-weight: bold;
@@ -77,7 +73,8 @@ export default {
     transition: 0.3s;
 }
 
-.closebtn:hover {
+.closebtn:hover{
     color: black;
 }
 </style>
+

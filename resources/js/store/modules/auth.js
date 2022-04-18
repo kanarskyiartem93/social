@@ -25,7 +25,8 @@ const actions = {
             }).catch((error) => {
                 if (error.response.status === 422) {
                     cont.commit('setErrors', error.response.data.errors)
-                }console.log(error.response)
+                }
+                console.log(this.errors)
             })
         })
     },
@@ -38,11 +39,11 @@ const actions = {
                         window.location.replace('/dashboard')
                     }
                 }).catch((error) => {
-                        if (error.response.data.error) {
-                            cont.commit('setInvalidCredentials', error.response.data.error)
-                        } else if (error.response.status === 422) {
-                            cont.commit('setErrors', error.response.data.errors)
-                        }console.log(error.response)
+                if (error.response.data.error) {
+                    cont.commit('setInvalidCredentials', error.response.data.error)
+                } else if (error.response.status === 422) {
+                    cont.commit('setErrors', error.response.data.errors)
+                }
             })
         })
     },
@@ -64,6 +65,28 @@ const actions = {
             }
             cont.commit('setLoggedIn', false)
             resolve(false)
+        })
+    },
+
+    forgotPassword(cont, user) {
+        return new Promise((resolve, reject) => {
+            axios.post('api/forgot-password', {
+                email: user.email
+            }).then(res => {
+                if (res.data) {
+                    window.location.replace('/login')
+                    resolve(response)
+                } else {
+                    reject(response)
+                }
+            }).catch((error) => {
+                console.log(error.response)
+                if (error.response.status === 500) {
+                    cont.commit('setInvalidCredentials', error.response.data.error)
+                } else if (error.response.status === 422) {
+                    cont.commit('setErrors', error.response.data.error)
+                }
+            })
         })
     }
 }
