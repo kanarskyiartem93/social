@@ -19969,6 +19969,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   data: function data() {
     return {};
   },
+  mounted: function mounted() {
+    this.$store.dispatch('auth/currentUser');
+  },
   computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapGetters)({
     loggedIn: 'auth/loggedIn'
   })),
@@ -20673,6 +20676,38 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
 /***/ }),
 
+/***/ "./resources/axios/axios-instance.js":
+/*!*******************************************!*\
+  !*** ./resources/axios/axios-instance.js ***!
+  \*******************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+/* provided dependency */ var process = __webpack_require__(/*! process/browser.js */ "./node_modules/process/browser.js");
+
+var token = localStorage.getItem('token');
+var instance = axios__WEBPACK_IMPORTED_MODULE_0___default().create({
+  baseURL: process.env.VUE_APP_URL_API,
+  headers: {
+    Authorization: "Bearer ".concat(token)
+  }
+});
+instance.interceptors.response.use(function (res) {
+  console.log(res);
+  return res;
+}, function (error) {
+  return Promise.reject(error);
+});
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (instance);
+
+/***/ }),
+
 /***/ "./resources/js/app.js":
 /*!*****************************!*\
   !*** ./resources/js/app.js ***!
@@ -21020,8 +21055,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _axios_axios_instance__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../axios/axios-instance */ "./resources/axios/axios-instance.js");
 
 var state = {
   userDetails: {},
@@ -21034,7 +21068,7 @@ var actions = {
     var _this = this;
 
     return new Promise(function (resolve, reject) {
-      axios__WEBPACK_IMPORTED_MODULE_0___default().post('/api/register', {
+      _axios_axios_instance__WEBPACK_IMPORTED_MODULE_0__["default"].post('/api/register', {
         name: user.name,
         email: user.email,
         password: user.password,
@@ -21057,9 +21091,10 @@ var actions = {
   },
   loginUser: function loginUser(cont, payload) {
     return new Promise(function (resolve, reject) {
-      axios__WEBPACK_IMPORTED_MODULE_0___default().post('/api/login', payload).then(function (res) {
+      _axios_axios_instance__WEBPACK_IMPORTED_MODULE_0__["default"].post('/api/login', payload).then(function (res) {
         if (res.data.access_token) {
           localStorage.setItem('token', res.data.access_token);
+          cont.commit('setLoggedIn', true);
           window.location.replace('/dashboard');
         }
       })["catch"](function (error) {
@@ -21092,7 +21127,7 @@ var actions = {
   },
   forgotPassword: function forgotPassword(cont, user) {
     return new Promise(function (resolve, reject) {
-      axios__WEBPACK_IMPORTED_MODULE_0___default().post('/api/forgot-password', {
+      _axios_axios_instance__WEBPACK_IMPORTED_MODULE_0__["default"].post('/api/forgot-password', {
         email: user.email
       }).then(function (res) {
         if (res.data) {
@@ -21114,7 +21149,7 @@ var actions = {
   },
   resetPassword: function resetPassword(cont, payload) {
     return new Promise(function (resolve, reject) {
-      axios__WEBPACK_IMPORTED_MODULE_0___default().post('/api/reset-password', payload).then(function (res) {
+      _axios_axios_instance__WEBPACK_IMPORTED_MODULE_0__["default"].post('/api/reset-password', payload).then(function (res) {
         if (res.data) {
           window.location.replace('/login');
           resolve(response);
@@ -21131,6 +21166,16 @@ var actions = {
         }
       });
     });
+  },
+  currentUser: function currentUser(cont) {
+    return new Promise(function (resolve, reject) {
+      _axios_axios_instance__WEBPACK_IMPORTED_MODULE_0__["default"].get('user').then(function (res) {
+        cont.commit('setUserDetails', res.data.data);
+        console.log(res);
+      })["catch"](function (error) {
+        reject(error);
+      });
+    });
   }
 };
 var mutations = {
@@ -21142,6 +21187,9 @@ var mutations = {
   },
   setInvalidCredentials: function setInvalidCredentials(state, invalidCredentials) {
     state.invalidCredentials = invalidCredentials;
+  },
+  setUserDetails: function setUserDetails(state, payload) {
+    state.userDetails = payload;
   }
 };
 var getters = {

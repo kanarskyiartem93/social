@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "../../../axios/axios-instance";
 
 const state = {
     userDetails: {},
@@ -36,6 +36,7 @@ const actions = {
                 .then(res => {
                     if (res.data.access_token) {
                         localStorage.setItem('token', res.data.access_token)
+                        cont.commit('setLoggedIn', true)
                         window.location.replace('/dashboard')
                     }
                 }).catch((error) => {
@@ -108,6 +109,18 @@ const actions = {
                 }
             })
         })
+    },
+
+    currentUser(cont) {
+        return new Promise((resolve, reject) => {
+            axios.get('user')
+                .then((res) => {
+                    cont.commit('setUserDetails', res.data.data)
+                    console.log(res)
+                }).catch((error) => {
+                    reject(error)
+            })
+        })
     }
 }
 
@@ -120,6 +133,9 @@ const mutations = {
     },
     setInvalidCredentials(state, invalidCredentials) {
         state.invalidCredentials = invalidCredentials
+    },
+    setUserDetails(state, payload) {
+        state.userDetails = payload
     }
 }
 
