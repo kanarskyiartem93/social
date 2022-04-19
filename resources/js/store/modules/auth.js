@@ -70,7 +70,7 @@ const actions = {
 
     forgotPassword(cont, user) {
         return new Promise((resolve, reject) => {
-            axios.post('api/forgot-password', {
+            axios.post('/api/forgot-password', {
                 email: user.email
             }).then(res => {
                 if (res.data) {
@@ -84,7 +84,27 @@ const actions = {
                 if (error.response.status === 500) {
                     cont.commit('setInvalidCredentials', error.response.data.error)
                 } else if (error.response.status === 422) {
-                    cont.commit('setErrors', error.response.data.error)
+                    cont.commit('setErrors', error.response.data.errors)
+                }
+            })
+        })
+    },
+    resetPassword(cont, payload) {
+        return new Promise((resolve, reject) => {
+            axios.post('/api/reset-password', payload)
+                .then(res => {
+                    if (res.data) {
+                        window.location.replace('/login')
+                        resolve(response)
+                    } else {
+                        reject(response)
+                    }
+                }).catch((error) => {
+                console.log(error.response)
+                if (error.response.status === 500) {
+                    cont.commit('setInvalidCredentials', error.response.data.error)
+                } else if (error.response.status === 422) {
+                    cont.commit('setErrors', error.response.data.errors)
                 }
             })
         })

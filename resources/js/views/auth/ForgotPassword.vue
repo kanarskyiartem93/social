@@ -41,9 +41,6 @@ export default {
         }),
         sendForgotPassword() {
             this.$store.dispatch('auth/forgotPassword', this.user)
-        },
-        checkUserState() {
-            this.$store.dispatch('auth/setLoggedInstate', this.user)
         }
     }
 }
