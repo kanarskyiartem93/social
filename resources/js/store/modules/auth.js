@@ -37,6 +37,7 @@ const actions = {
                     if (res.data.access_token) {
                         localStorage.setItem('token', res.data.access_token)
                         cont.commit('setLoggedIn', true)
+                        cont.dispatch('currentUser').then(() => resolve(res))
                         window.location.replace('/dashboard')
                     }
                 }).catch((error) => {
@@ -63,9 +64,10 @@ const actions = {
             if (localStorage.getItem('token')) {
                 cont.commit('setLoggedIn', true)
                 resolve(true)
+            } else {
+                cont.commit('setLoggedIn', false)
+                resolve(false)
             }
-            cont.commit('setLoggedIn', false)
-            resolve(false)
         })
     },
 
@@ -76,9 +78,9 @@ const actions = {
             }).then(res => {
                 if (res.data) {
                     window.location.replace('/login')
-                    resolve(response)
+                    resolve(res)
                 } else {
-                    reject(response)
+                    reject(res)
                 }
             }).catch((error) => {
                 console.log(error.response)
@@ -113,12 +115,12 @@ const actions = {
 
     currentUser(cont) {
         return new Promise((resolve, reject) => {
-            axios.get('user')
+            axios.get('/api/user')
                 .then((res) => {
                     cont.commit('setUserDetails', res.data.data)
                     console.log(res)
                 }).catch((error) => {
-                    reject(error)
+                reject(error)
             })
         })
     }

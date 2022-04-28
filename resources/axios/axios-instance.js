@@ -12,6 +12,7 @@ instance.interceptors.response.use(function (res) {
     console.log(res)
     return res
 }, function (error) {
+    console.log(error)
     return Promise.reject(error)
 })
 

@@ -2,11 +2,13 @@
     <div>
         <nav>
             <ul class="navigation">
-                <li><a href="">Profile</a></li>
+                <router-link to="/userprofile">
+                    <li><a href="">Profile</a></li>
+                </router-link>
                 <li><a href="">Settings</a></li>
                 <li><a href="">My Book</a></li>
             </ul>
-            <div class="button">
+            <div class="buttons">
                 <my-button @click="logout" v-if="loggedIn">Logout</my-button>
             </div>
         </nav>
@@ -19,6 +21,9 @@ import {mapGetters, mapActions} from 'vuex'
 export default {
     name: "Dashboard",
     data: () => ({}),
+    created() {
+        this.checkUserState()
+    },
     mounted() {
         this.$store.dispatch('auth/currentUser')
     },
@@ -29,14 +34,15 @@ export default {
     },
     methods: {
         ...mapActions({
-            logout: 'auth/logout'
+            logout: 'auth/logout',
+            checkUserState: 'auth/setLoggedInstate'
         })
     }
 
 }
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
 nav {
     margin: 30px;
     background-color: var(--color-gray-dark);
@@ -56,7 +62,7 @@ nav {
     }
 }
 
-.button {
+.buttons {
     float: right;
 }
 
