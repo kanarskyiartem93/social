@@ -5,7 +5,9 @@
                 <router-link to="/userprofile">
                     <li><a href="">Profile</a></li>
                 </router-link>
-                <li><a href="">Settings</a></li>
+                <router-link to="/settings">
+                    <li><a href="">Settings</a></li>
+                </router-link>
                 <li><a href="">My Book</a></li>
             </ul>
             <div class="buttons">

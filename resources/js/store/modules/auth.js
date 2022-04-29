@@ -123,7 +123,46 @@ const actions = {
                 reject(error)
             })
         })
-    }
+    },
+
+    changePassword(cont, payload) {
+        return new Promise((resolve, reject) => {
+            axios.post('/api/change-password', payload)
+                .then((res) => {
+                    if (res.data.success) {
+                        resolve(res)
+                        window.location.replace('/login')
+                    } else {
+                        reject(res)
+                    }
+                }).catch((error) => {
+                if (error.response.data.err) {
+                    cont.commit('setInvalidCredentials', error.response.data.error)
+                } else if (error.response.status === 422) {
+                    cont.commit('setErrors', error.response.data.errors)
+                }
+            })
+        })
+    },
+    updateDetails(cont, payload) {
+        return new Promise((resolve, reject) => {
+            axios.post('/api/change-details', payload)
+                .then((res) => {
+                    if (res.data.success) {
+                        resolve(res)
+                        window.location.replace('/userprofile')
+                    } else {
+                        reject(res)
+                    }
+                }).catch((error) => {
+                if (error.response.data.err) {
+                    cont.commit('setInvalidCredentials', error.response.data.error)
+                } else if (error.response.status === 422) {
+                    cont.commit('setErrors', error.response.data.errors)
+                }
+            })
+        })
+    },
 }
 
 const mutations = {

@@ -9,6 +9,7 @@ import store from "../store";
 import middlewarePipeline from "./middlewarePipeline";
 import ForgotPassword from "../views/auth/ForgotPassword";
 import ResetPassword from "../views/auth/ResetPassword";
+import Settings from "../views/pages/Settings";
 
 const routes = [
     {
@@ -20,17 +21,16 @@ const routes = [
         path: "/login",
         name: Login,
         component: Login,
-        // meta: {
-        //     middleware: [Middleware.guest]
-        // }
     },
     {
         path: "/register",
         name: Register,
         component: Register,
-        // meta: {
-        //     middleware: [Middleware.guest]
-        // }
+    },
+    {
+        path: "/settings",
+        name: Settings,
+        component: Settings,
     },
     {
         path: "/forgot-password",
@@ -55,9 +55,6 @@ const routes = [
         path: "/userprofile",
         name: UserProfile,
         component: UserProfile,
-        // meta: {
-        //     middleware: [Middleware.auth, Middleware.isSubscribed]
-        // }
     },
 ]
 

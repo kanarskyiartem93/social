@@ -20,6 +20,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['middleware' =>'auth:api'], function () {
     Route::get('user', [UserController::class, 'user']);
+    Route::post('change-password', [UserController::class, 'changePassword']);
+    Route::post('change-details', [UserController::class, 'changeDetails']);
 });
 
 Route::post('register', [AuthController::class, 'register']);
