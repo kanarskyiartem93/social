@@ -21389,7 +21389,10 @@ var routes = [{
 }, {
   path: "/settings",
   name: _views_pages_Settings__WEBPACK_IMPORTED_MODULE_10__["default"],
-  component: _views_pages_Settings__WEBPACK_IMPORTED_MODULE_10__["default"]
+  component: _views_pages_Settings__WEBPACK_IMPORTED_MODULE_10__["default"],
+  meta: {
+    middleware: [_middleware__WEBPACK_IMPORTED_MODULE_5__["default"].auth]
+  }
 }, {
   path: "/forgot-password",
   name: _views_auth_ForgotPassword__WEBPACK_IMPORTED_MODULE_8__["default"],
@@ -21413,7 +21416,10 @@ var routes = [{
 }, {
   path: "/userprofile",
   name: _views_pages_UserProfile__WEBPACK_IMPORTED_MODULE_4__["default"],
-  component: _views_pages_UserProfile__WEBPACK_IMPORTED_MODULE_4__["default"]
+  component: _views_pages_UserProfile__WEBPACK_IMPORTED_MODULE_4__["default"],
+  meta: {
+    middleware: [_middleware__WEBPACK_IMPORTED_MODULE_5__["default"].auth]
+  }
 }];
 var router = (0,vue_router__WEBPACK_IMPORTED_MODULE_11__.createRouter)({
   routes: routes,

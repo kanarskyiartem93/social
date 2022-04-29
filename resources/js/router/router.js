@@ -31,6 +31,9 @@ const routes = [
         path: "/settings",
         name: Settings,
         component: Settings,
+        meta: {
+            middleware: [Middleware.auth]
+        }
     },
     {
         path: "/forgot-password",
@@ -55,6 +58,9 @@ const routes = [
         path: "/userprofile",
         name: UserProfile,
         component: UserProfile,
+        meta: {
+            middleware: [Middleware.auth]
+        }
     },
 ]
 
