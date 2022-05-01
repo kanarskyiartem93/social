@@ -10,6 +10,7 @@ import middlewarePipeline from "./middlewarePipeline";
 import ForgotPassword from "../views/auth/ForgotPassword";
 import ResetPassword from "../views/auth/ResetPassword";
 import Settings from "../views/pages/Settings";
+import VerifyEmail from "../views/auth/VerifyEmail";
 
 const routes = [
     {
@@ -63,6 +64,10 @@ const routes = [
         meta: {
             middleware: [Middleware.auth, Middleware.admin]
         }
+    },
+    {   path: '/verify-email',
+        name: 'VerifyEmail',
+        component: VerifyEmail,
     },
 ]
 

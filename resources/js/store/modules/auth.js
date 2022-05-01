@@ -163,6 +163,18 @@ const actions = {
             })
         })
     },
+    verifyEmail(cont, payload) {
+        return new Promise((resolve, reject) => {
+            axios.get('/api/email-verification', {
+                params: payload
+            })
+                .then((res) => {
+                    resolve(res)
+                }).catch((error) => {
+                reject(error)
+            })
+        })
+    },
 }
 
 const mutations = {
