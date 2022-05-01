@@ -33,7 +33,8 @@ const routes = [
         component: Settings,
         meta: {
             middleware: [Middleware.auth]
-        }
+        },
+        roles:['developer']
     },
     {
         path: "/forgot-password",
@@ -52,14 +53,15 @@ const routes = [
         component: Dashboard,
         meta: {
             middleware: [Middleware.auth]
-        }
+        },
+        roles: ['admin']
     },
     {
         path: "/userprofile",
         name: UserProfile,
         component: UserProfile,
         meta: {
-            middleware: [Middleware.auth]
+            middleware: [Middleware.auth, Middleware.admin]
         }
     },
 ]

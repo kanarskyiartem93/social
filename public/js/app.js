@@ -21199,6 +21199,30 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/middleware/admin.js":
+/*!******************************************!*\
+  !*** ./resources/js/middleware/admin.js ***!
+  \******************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* export default binding */ __WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony default export */ function __WEBPACK_DEFAULT_EXPORT__(_ref) {
+  var next = _ref.next,
+      store = _ref.store;
+
+  if (store.getters['auth/isAdmin']) {
+    next('');
+  } else {
+    next(false);
+  }
+}
+
+/***/ }),
+
 /***/ "./resources/js/middleware/auth.js":
 /*!*****************************************!*\
   !*** ./resources/js/middleware/auth.js ***!
@@ -21259,15 +21283,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _auth__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./auth */ "./resources/js/middleware/auth.js");
-/* harmony import */ var _guest__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./guest */ "./resources/js/middleware/guest.js");
-/* harmony import */ var _isSubscribed__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./isSubscribed */ "./resources/js/middleware/isSubscribed.js");
+/* harmony import */ var _admin__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./admin */ "./resources/js/middleware/admin.js");
+/* harmony import */ var _guest__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./guest */ "./resources/js/middleware/guest.js");
+/* harmony import */ var _isSubscribed__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./isSubscribed */ "./resources/js/middleware/isSubscribed.js");
+
 
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   auth: _auth__WEBPACK_IMPORTED_MODULE_0__["default"],
-  guest: _guest__WEBPACK_IMPORTED_MODULE_1__["default"],
-  isSubscribed: _isSubscribed__WEBPACK_IMPORTED_MODULE_2__["default"]
+  guest: _guest__WEBPACK_IMPORTED_MODULE_2__["default"],
+  isSubscribed: _isSubscribed__WEBPACK_IMPORTED_MODULE_3__["default"],
+  admin: _admin__WEBPACK_IMPORTED_MODULE_1__["default"]
 });
 
 /***/ }),
@@ -21392,7 +21419,8 @@ var routes = [{
   component: _views_pages_Settings__WEBPACK_IMPORTED_MODULE_10__["default"],
   meta: {
     middleware: [_middleware__WEBPACK_IMPORTED_MODULE_5__["default"].auth]
-  }
+  },
+  roles: ['developer']
 }, {
   path: "/forgot-password",
   name: _views_auth_ForgotPassword__WEBPACK_IMPORTED_MODULE_8__["default"],
@@ -21412,13 +21440,14 @@ var routes = [{
   component: _views_pages_Dashboard__WEBPACK_IMPORTED_MODULE_3__["default"],
   meta: {
     middleware: [_middleware__WEBPACK_IMPORTED_MODULE_5__["default"].auth]
-  }
+  },
+  roles: ['admin']
 }, {
   path: "/userprofile",
   name: _views_pages_UserProfile__WEBPACK_IMPORTED_MODULE_4__["default"],
   component: _views_pages_UserProfile__WEBPACK_IMPORTED_MODULE_4__["default"],
   meta: {
-    middleware: [_middleware__WEBPACK_IMPORTED_MODULE_5__["default"].auth]
+    middleware: [_middleware__WEBPACK_IMPORTED_MODULE_5__["default"].auth, _middleware__WEBPACK_IMPORTED_MODULE_5__["default"].admin]
   }
 }];
 var router = (0,vue_router__WEBPACK_IMPORTED_MODULE_11__.createRouter)({
@@ -21670,6 +21699,9 @@ var getters = {
   },
   invalidCredentials: function invalidCredentials(state) {
     return state.invalidCredentials;
+  },
+  isAdmin: function isAdmin(state) {
+    return state.userDetails ? state.userDetails.roles : false;
   }
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
