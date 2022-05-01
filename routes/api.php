@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\ForgotPasswordController;
 use App\Http\Controllers\Api\ResetPasswordController;
 use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\Api\VerificationController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -28,3 +29,4 @@ Route::post('register', [AuthController::class, 'register']);
 Route::post('login', [AuthController::class, 'login']);
 Route::post('forgot-password', [ForgotPasswordController::class, 'sendResetLinkMail']);
 Route::post('reset-password', [ResetPasswordController::class, 'reset']);
+Route::get('email-verify', [VerificationController::class, 'verify'])->name('verification.verify');

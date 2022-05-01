@@ -19,6 +19,12 @@ class AuthController extends Controller
             return $passwordRequired['response'];
         }
 
+        if(empty($tokenContent)) {
+            return response()->json([
+                "message" =>  'Email is required'
+            ]);
+        }
+
         return response()->json([
             'message' => 'Invalid credentials'
         ],401);

@@ -3,12 +3,13 @@
 namespace App\Models;
 
 use App\Notifications\ResetPasswordNotification;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
     use HasApiTokens, HasFactory, Notifiable;
 
@@ -52,7 +53,7 @@ class User extends Authenticatable
     }
 
     public function permissions() {
-        return $this->belongsToMany(Permission::class, 'users');
+        return $this->belongsToMany(Permission::class, 'users_permissions');
     }
 
     public function sendPasswordResetNotification($token)
